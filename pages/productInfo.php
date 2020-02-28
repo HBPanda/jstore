@@ -25,30 +25,9 @@
                     <a class="nav-link" href="../">Home </a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="./productInfo.php">Product Info<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="./productInfo.php">Add Product <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./costingInfo.php">Costing Info</a>
-                </li>       
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="./registerProduct.php" tabindex="-1" aria-disabled="true">Register Product</a>
-                </li>
-                <!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li> -->
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
         </div>
     </nav>
     <div class=" mh-90 d-flex align-items-center justify-content-center">
@@ -74,15 +53,15 @@
                     </div>   
                     <div class="row p-2">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Product Name" name="productName" value="<?php echo $_SESSION["productName"]; ?>">
+                            <input type="text" class="form-control" placeholder="Product Name" name="productName" value="<?php if(isset($_SESSION["productName"])){echo $_SESSION["productName"];} ?>">
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" placeholder="Product Code/Serial Number" name="productCodeNumber" value="<?php echo $_SESSION["productCodeNumber"]; ?>">
+                            <input type="number" class="form-control" placeholder="Product Code/Serial Number" name="productCodeNumber" value="<?php if(isset($_SESSION["productCodeNumber"])){echo $_SESSION["productCodeNumber"];} ?>">
                         </div>
                     </div>
                     <div class="row p-2">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Manufacturer" name="manufacturer" value="<?php echo $_SESSION["manufacturer"]; ?>">
+                            <input type="text" class="form-control" placeholder="Manufacturer" name="manufacturer" value="<?php if(isset($_SESSION["manufacturer"])){echo $_SESSION["manufacturer"];} ?>">
                         </div>
                     </div>
                     <div class="row p-2">
@@ -91,16 +70,16 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Manufacturer Date</span>
                                 </div>
-                                <input type="date" class="form-control" placeholder="Manufacturer Date" name="manufacturerDate" value="<?php echo $_SESSION["manufacturerDate"]; ?>">
+                                <input type="date" class="form-control" placeholder="Manufacturer Date" name="manufacturerDate" value="<?php if(isset($_SESSION["manufacturerDate"])){echo $_SESSION["manufacturerDate"];} ?>">
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <select id="productType" class="form-control" name="productType" value="">
                                 <option>Product Type</option>
-                                <option <?php if($_SESSION["productType"] == "Computers") echo "selected" ?>>Computers</option>
-                                <option <?php if($_SESSION["productType"] == "Phones") echo "selected" ?>>Phones</option>
-                                <option <?php if($_SESSION["productType"] == "Displays") echo "selected" ?>>Displays</option>
-                                <option <?php if($_SESSION["productType"] == "Misc") echo "selected" ?>>Misc</option>
+                                <option <?php if(isset($_SESSION['productType'])){if($_SESSION["productType"] == "Computers"){ echo "selected"; }} ?>>Computers</option>
+                                <option <?php if(isset($_SESSION['productType'])){if($_SESSION["productType"] == "Phones"){ echo "selected"; }} ?>>Phones</option>
+                                <option <?php if(isset($_SESSION['productType'])){if($_SESSION["productType"] == "Displays"){ echo "selected"; }} ?>>Displays</option>
+                                <option <?php if(isset($_SESSION['productType'])){if($_SESSION["productType"] == "Misc"){ echo "selected"; }} ?>>Misc</option>
                             </select>
                         </div>
                     </div>
@@ -110,13 +89,13 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Product Description</span>
                                 </div>
-                                <textarea class="form-control" aria-label="Product Description" name="productDescription"><?php echo $_SESSION["productDescription"]; ?></textarea>
+                                <textarea class="form-control" aria-label="Product Description" name="productDescription"><?php if(isset($_SESSION["productDescription"])){echo $_SESSION["productDescription"];} ?></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row p-2">
                         <div class="col">
-                        <button type="submit" name="submit" value="Submit" class="btn btn-primary btn-block">Submit</button></div>
+                        <button type="submit" name="submit" value="Submit" class="btn btn-primary btn-block">Go to Costing Info</button></div>
                     </div>
                 </form>
             </div>

@@ -1,5 +1,28 @@
 <?php
     session_start();
+
+    function save(){
+        $file = fopen("../database/products.txt","a") or die("Unable to open file!");
+            fwrite($file, "productName=" . $_SESSION["productName"] . "&productCodeNumber=" . $_SESSION["productCodeNumber"]. "&manufacturer=" . $_SESSION["manufacturer"] . "&manufacturerDate=" 
+                . $_SESSION["manufacturerDate"] . "&productType=" . $_SESSION["productType"] . "&productDescription=" . $_SESSION["productDescription"] . "\n");
+        fclose($file);
+
+        $file = fopen("../database/costs.txt","a") or die("Unable to open file!");
+            fwrite($file, "costPrice=" . $_SESSION["costPrice"] . "&salesPrice=" . $_SESSION["salesPrice"]. "&quantity=" . $_SESSION["quantity"] . "\n");
+        fclose($file);
+        
+        // remove all session variables
+        session_unset();
+
+        // destroy the session
+        session_destroy();
+
+        header("Location: ../index.php");
+    }
+
+    if(isset($_GET["save"])){
+        save();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,31 +47,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="../">Home </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./productInfo.php">Product Info</a>
-                </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="./costingInfo.php">Costing Info<span class="sr-only">(current)</span></a>
-                </li>       
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="./registerProduct.php" tabindex="-1" aria-disabled="true">Register Product</a>
+                    <a class="nav-link" href="./productInfo.php">Add Product <span class="sr-only">(current)</span></a>
                 </li>
-                <!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li> -->
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
         </div>
     </nav>
     <div class=" mh-90 d-flex align-items-center justify-content-center">
@@ -60,28 +62,32 @@
             <div class="col-6">
                 <h1 class="display-4 animated fadeInRight delay-0-5s">Product Info</h1>
                 <?php
-                    echo "<p class='animated fadeInRight delay-0-5s'>Product Name: ". $_SESSION["productName"] . "</p>";
-                    echo "<p class='animated fadeInRight delay-1s'>Product Code/Serial Number: ". $_SESSION["productCodeNumber"] . "</p>";
-                    echo "<p class='animated fadeInRight delay-1-5s'>Manufacturer: ". $_SESSION["manufacturer"] . "</p>";
-                    echo "<p class='animated fadeInRight delay-2s'>Manufacturer Date: ". $_SESSION["manufacturerDate"] . "</p>";
-                    echo "<p class='animated fadeInRight delay-2-5s'>Product Type: ". $_SESSION["productType"] . "</p>";
-                    echo "<p class='animated fadeInRight delay-3s'>Product Description: ". $_SESSION["productDescription"] . "</p>";
-                    echo "<a href='./productInfo.php?edit=true' class='animated fadeInRight delay-3-5s btn btn-primary'>Edit</a>";
+                    if(isset($_SESSION["productName"])){
+                        echo "<p class='animated fadeInRight delay-0-5s'>Product Name: ". $_SESSION["productName"] . "</p>";
+                        echo "<p class='animated fadeInRight delay-1s'>Product Code/Serial Number: ". $_SESSION["productCodeNumber"] . "</p>";
+                        echo "<p class='animated fadeInRight delay-1-5s'>Manufacturer: ". $_SESSION["manufacturer"] . "</p>";
+                        echo "<p class='animated fadeInRight delay-2s'>Manufacturer Date: ". $_SESSION["manufacturerDate"] . "</p>";
+                        echo "<p class='animated fadeInRight delay-2-5s'>Product Type: ". $_SESSION["productType"] . "</p>";
+                        echo "<p class='animated fadeInRight delay-3s'>Product Description: ". $_SESSION["productDescription"] . "</p>";
+                        echo "<a href='./productInfo.php?edit=true' class='animated fadeInRight delay-3-5s btn btn-primary'>Edit</a>";
+                    }
                 ?>
             </div>
             <div class="col-6">
                 <h1 class="display-4 animated fadeInRight delay-0-5s">Cost Info</h1>
                 <ul>
                     <?php
-                        echo "<p class='animated fadeInRight delay-1'>Cost Price: ". $_SESSION["costPrice"] . "</p>";
-                        echo "<p class='animated fadeInRight delay-1-5s'>Sales Price: ". $_SESSION["salesPrice"] . "</p>";
-                        echo "<p class='animated fadeInRight delay-2s'> Quantity In Stock: ". $_SESSION["quantity"] . "</p>";
-                        echo "<a href='./costingInfo.php?edit=true' class='animated fadeInRight delay-2-5s btn btn-primary'>Edit</a>";
+                        if(isset($_SESSION["costPrice"])){      
+                            echo "<p class='animated fadeInRight delay-1'>Cost Price: ". $_SESSION["costPrice"] . "</p>";
+                            echo "<p class='animated fadeInRight delay-1-5s'>Sales Price: ". $_SESSION["salesPrice"] . "</p>";
+                            echo "<p class='animated fadeInRight delay-2s'> Quantity In Stock: ". $_SESSION["quantity"] . "</p>";
+                            echo "<a href='./costingInfo.php?edit=true' class='animated fadeInRight delay-2-5s btn btn-primary'>Edit</a>";
+                        }
                     ?>
                 </ul>
             </div>
             <div class="col pt-3 animated fadeIn delay-4s">
-                <button type="submit" class="btn btn-primary btn-block">Register Product</button></div>   
+                <a href='registerProduct.php?save=true' type="submit" class="btn <?php if(isset($_SESSION["productName"])){ echo "btn-primary";} else{ echo "btn-secondary disabled";} ?> btn-block">Register Product</a> 
             </div>
         </div>
     </div>
